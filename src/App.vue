@@ -15,7 +15,7 @@
         :key="index"
       >
         <painel :titulo="foto.titulo">
-          <img class="img-responsiva" :src="foto.url" :alt="foto.titulo" />
+          <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
         </painel>
       </li>
     </ul>
@@ -24,10 +24,12 @@
 
 <script>
 import Painel from "./components/shared/painel/Painel.vue";
+import ImagemResponsiva from "./components/shared/imagem-responsiva/ImagemResponsiva.vue";
 
 export default {
   components: {
-    Painel
+    Painel,
+    ImagemResponsiva
   },
   data() {
     return {
