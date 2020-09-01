@@ -16,7 +16,13 @@
       >
         <painel :titulo="foto.titulo">
           <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
-          <botao tipo="button" rotulo="Remover" @botaoAtivado="remove(foto)" />
+          <botao
+            tipo="button"
+            rotulo="Remover"
+            :confirmacao="true"
+            estilo="perigo"
+            @botaoAtivado="remove(foto)"
+          />
         </painel>
       </li>
     </ul>
