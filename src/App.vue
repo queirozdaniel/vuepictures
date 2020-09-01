@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>{{titulo}}</h1>
-    <img :src="foto.url" :alt="foto.titulo" />
+    <h1>{{ titulo }}</h1>
+    <ul>
+      <li v-for="foto of fotos"><img :src="foto.url" :alt="foto.titulo" /></li>
+    </ul>
   </div>
 </template>
 
@@ -10,15 +12,19 @@ export default {
   data() {
     return {
       titulo: "Vue Pictures",
-      foto: {
-        url:
-          "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=768:*",
-        titulo: "Doginho fofo",
-      },
+      fotos: []
     };
   },
+  created() {
+    let promise = this.$http.get("http://localhost:3000/v1/fotos");
+    promise
+      .then(res => res.json())
+      .then(
+        fotos => (this.fotos = fotos),
+        err => console.log(err)
+      );
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
