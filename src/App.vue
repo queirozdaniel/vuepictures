@@ -1,62 +1,24 @@
 <template>
   <div class="corpo">
-    <h1 class="texto-center">{{ titulo }}</h1>
-    <input
-      type="search"
-      v-on:input="filtro = $event.target.value"
-      class="filtro"
-      placeholder="filtre por parte do título"
-    />
-    {{ filtro }}
-    <ul class="lista_fotos">
-      <li
-        class="lista_fotos_item"
-        v-for="(foto, index) of fotosComFiltro"
-        :key="index"
-      >
-        <painel :titulo="foto.titulo">
-          <imagem-responsiva :url="foto.url" :titulo="foto.titulo" />
-        </painel>
-      </li>
-    </ul>
+    <Menu :rotas="routes" />
+    <transition name="pagina" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
-import Painel from "./components/shared/painel/Painel.vue";
-import ImagemResponsiva from "./components/shared/imagem-responsiva/ImagemResponsiva.vue";
+import { routes } from "./routes";
+import Menu from "./components/shared/menu/Menu";
 
 export default {
   components: {
-    Painel,
-    ImagemResponsiva
+    Menu
   },
   data() {
     return {
-      titulo: "Vue Pictures",
-      fotos: [],
-      filtro: ""
+      routes
     };
-  },
-  computed: {
-    fotosComFiltro() {
-      if (this.filtro) {
-        let exp = new RegExp(this.filtro.trim(), "i");
-        return this.fotos.filter(foto => exp.test(foto.titulo));
-        return this.fotos;
-      } else {
-        return this.fotos;
-      }
-    }
-  },
-  created() {
-    let promise = this.$http.get("http://localhost:3000/v1/fotos");
-    promise
-      .then(res => res.json())
-      .then(
-        fotos => (this.fotos = fotos),
-        err => console.log(err)
-      );
   }
 };
 </script>
@@ -68,20 +30,13 @@ export default {
   margin: 0 auto;
 }
 
-.texto-center {
-  text-align: center;
+.pagina-enter,
+.pagina-leave-active {
+  opacity: 0;
 }
 
-.lista_fotos {
-  list-style-type: none;
-}
-
-.lista_fotos .lista_fotos_item {
-  display: inline-block;
-}
-
-.filtro {
-  display: block;
-  width: 100%;
+.pagina-enter-active,
+.pagina-leave-active {
+  transition: opacity 0.4s;
 }
 </style>
